@@ -1,0 +1,38 @@
+ 
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    	{{ parent() }} bloc mère
+
+{% endblock %}
+
+{% block body %}
+
+<div id="wrapper">
+
+    <div id="container">
+
+    	
+
+
+    	{% block titre %}
+    	    <h1>Bloc mère</h1>
+    	{% endblock %}
+
+        {%  block liens %}
+            <fieldset>
+                <legend> Liens </legend>
+
+                <a href="{{ path('homepage') }}"> accueil </a>
+                <a href="{{ path('bloc_fille') }}"> bloc fille </a>
+                <a href="{{ path('bloc_frere') }}"> bloc frere </a>
+            </fieldset>
+
+            <br><br>
+        {% endblock %}
+    </div>
+</div>
+
+
+
+{% endblock %}

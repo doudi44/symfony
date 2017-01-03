@@ -1,0 +1,222 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div id="wrapper">
+
+    <div id="container">
+
+        <h1>Exercice 1</h1>
+
+        <p>1- Afficher le titre et la description de tous les produits </p> 
+
+        <div style="background-color:lightblue;text-align:center">
+
+            {% for product in products %}
+                <h2>{{ product.title }}</h2>
+                <p>{{ product.description }}</p>
+
+            {% endfor %}
+
+        </div>
+
+
+        <p>     2- Afficher uniquement pour le premier produit la phrase suivante en plus : "Ceci est le premier produit" (ne pas utiliser id pour faire son test)</p> 
+
+
+        <div style="background-color:lightblue;text-align:center">
+
+            {% for product in products %}
+                <h2>{{ product.title }}</h2>
+                {% if loop.first %}
+                    <p>{{ "Ceci est le premier produit"  }}</p>
+                {% endif%}
+                <p>{{ product.description }}</p>
+
+            {% endfor %}
+
+        </div>
+
+
+        <p>     3- Afficher le nombre de produits en utilisant un filter</p> 
+
+        <div style="background-color:lightblue;text-align:center">
+
+            {{ "il y a "~ products|length ~ " produits" }}
+
+        </div>
+
+
+        <p>     4- Afficher pour le produit ayant l'id 4 un titre par défaut</p> 
+        
+
+                <div style="background-color:lightblue;text-align:center">
+
+                    {% for product in products %}
+
+                        <h2>{{ product.title|default('ce champ est inexistant') }}</h2>
+
+
+                        {% if product.title == "Mon premier produit" %}
+                            <p>{{ "Ceci est le premier produit"  }}</p>
+                        {% endif%}
+
+                        <p>{{ product.description }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+
+
+        <p>     5- Parcourez de nouveau les produits mais dans l'ordre inverse</p> 
+
+
+                <div style="background-color:lightblue;text-align:center">
+
+                    {% for product in products|reverse %}
+                        
+
+                        {% if product.id == 4 %}
+                            <h2>{{ "mon quatrième produit"|title }}</h2>
+                        {% else %}
+                            <h2>{{ product.title }}</h2>
+                        {% endif%}
+
+
+                        {% if product.title == "Mon premier produit" %}
+                            <p>{{ "Ceci est le premier produit"  }}</p>
+                        {% endif%}
+
+                        <p>{{ product.description }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+
+         <p>    6- Parcourez de nouveau les produits mais affichez uniquement le produit 2 et 3</p> 
+
+                <div style="background-color:lightblue;text-align:center">
+
+                    {% for product in products|slice(1,2) %}
+                        
+
+                        {% if product.id == 4 %}
+                            <h2>{{ "mon quatrième produit"|title }}</h2>
+                        {% else %}
+                            <h2>{{ product.title }}</h2>
+                        {% endif%}
+
+
+                        {% if product.title == "Mon premier produit" %}
+                            <p>{{ "Ceci est le premier produit"  }}</p>
+                        {% endif%}
+
+                        <p>{{ product.description }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+
+
+         <p>    7- Parcourez le tableau afin de faire le total des prix</p> 
+
+                <div style="background-color:lightblue;text-align:center">
+
+                    {% set total = 0 %}
+
+                    {% for product in products %}
+                        
+                        {% set total = total + product.prix %}
+
+                    {% endfor %}
+
+                    <p>{{ total ~ " euros"}}</p>
+
+                </div>
+
+
+        <p>     8- Utiliser un filter afin d afficher en majuscule le titre des produits</p> 
+
+                <div style="background-color:lightblue;text-align:center">
+
+                    {% for product in products %}
+                        
+
+                        {% if product.id == 4 %}
+                            <h2>{{ "mon quatrième produit"|title|upper }}</h2>
+                        {% else %}
+                            <h2>{{ product.title|upper }}</h2>
+                        {% endif%}
+
+
+                        {% if product.title == "Mon premier produit" %}
+                            <p>{{ "Ceci est le premier produit"  }}</p>
+                        {% endif%}
+
+                        <p>{{ product.description }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+
+
+        <p>     9- Trouver la fonction twig permettant de compter de 0 à 10 avec un pas de 2 ;)</p> 
+
+
+
+
+        <p>     10- Créer une variable avec votre prénom dans le controller. Créer une autre variable avec votre nom dans le controller. Trouvez le moyen de contaner les</p> 
+
+
+        <p>     11- Afficher dans la vue votre prénom et votre nom en faisant une concaténation</p> 
+
+
+        <p>     12- Afficher grâce à la catégorie test dans la documentation de twig, les produits impairs (ordre des produits dans le tableau)</p> 
+
+
+        <p>     13- Corriger le code ci-dessous sans toucher au controller afin d eviter une erreur en utilisant la catégorie test
+            { mischievous }</p> 
+
+
+        <p>     14- Parcourez de nouveau les produits mais afficher uniquement les produits ayant un titre  
+        </p>
+
+        <div style="background-color:lightblue;text-align:center">
+
+
+            {% for product in products if product.title is not empty %}
+                {{ product.title }}
+            {% endfor %}
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <fieldset>
+            <legend> Liens </legend>
+
+            <a href="{{ path('homepage') }}"> accueil </a>
+
+        </fieldset>
+
+        <br><br>
+
+    </div>
+</div>
+
+
+
+{% endblock %}
