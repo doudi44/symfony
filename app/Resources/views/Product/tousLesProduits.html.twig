@@ -43,8 +43,8 @@
 		                  <td>{{ product.id }}</td>
 		                  <td>{{ product.title }}</td>
 		                  <td>{{ product.description }}</td>
-		                  <td>{{products.0.date_created.date}}</td>
-		                  <td><div class="btn btn-block btn-primary">Voir</div></td>
+		                  <td>{{products.0.date_created.date|date("d/m/y")}}</td>
+		                  <td><a href="{{ path('showProduit',{id:product.id}) }}" class="btn btn-block btn-primary">Voir</a></td>
 		                  <td><div class="btn btn-block btn-success">Editer</div></td>
 		                  <td><div class="btn btn-block btn-danger">Supprimer</div></td>
 		                </tr>
