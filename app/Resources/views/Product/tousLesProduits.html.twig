@@ -1,0 +1,90 @@
+
+{% extends 'layout.html.twig' %}
+
+{#
+
+- Tous les produits dans un block titre
+- bouton "créer" 
+
+- tableau = id title description date actions => voir,éditer(jaune),supprimer(rouge)
+
+#}
+
+{% block titleContent %}
+	Tous les produits 
+  <div class="btn btn-block btn-primary" style="width:150px;display:inline-block;margin-left:20px;">Créer</div>
+  
+{% endblock %}
+
+{% block content %}
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Mon tableau</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Titre</th>
+                  <th>Description</th>
+                  <th>Date</th>
+                  <th colspan="3">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                	{% for product in products %}
+		                <tr>
+		                  <td>{{ product.id }}</td>
+		                  <td>{{ product.title }}</td>
+		                  <td>{{ product.description }}</td>
+		                  <td>{{products.0.date_created.date}}</td>
+		                  <td><div class="btn btn-block btn-primary">Voir</div></td>
+		                  <td><div class="btn btn-block btn-success">Editer</div></td>
+		                  <td><div class="btn btn-block btn-danger">Supprimer</div></td>
+		                </tr>
+                	{% endfor %}
+                </tbody>
+
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <!-- page script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable(
+                    {
+                        "language": {
+                            "lengthMenu": "Montrer _MENU_ enregistrement par page",
+                            "zeroRecords": "Nothing found - sorry",
+                            "info": "Montrer page _PAGE_ à _PAGES_",
+                            "infoEmpty": "Pas d'enregistrements pour cette recherche",
+                            "infoFiltered": "(filtered from _MAX_ total records)"
+                        }
+            );
+        });
+    </script>
+{% endblock %}

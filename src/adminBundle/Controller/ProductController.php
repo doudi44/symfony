@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ProductController extends Controller
 {
     /**
-     * @Route("/admin/produits")
+     * @Route("/admin/produits",name="admin_produits")
      */
     public function productAction()
     {
@@ -44,7 +44,7 @@ class ProductController extends Controller
         ];
 
 
-        return $this->render('adminBundle:Product:tousLesProduits.html.twig',
+        return $this->render('Product/tousLesProduits.html.twig',
         	[
         		"products" => $products
         	]);

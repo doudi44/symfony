@@ -8,11 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/admin")
+     * @Route("/admin",name="admin")
      */
     public function adminAction()
     {
-        return $this->render('adminBundle:Default:index.html.twig',
+        return $this->render('Default/index.html.twig',
         	[
         		"firstName" => "DOUDI"
         	]);
