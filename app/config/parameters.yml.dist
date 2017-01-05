@@ -18,5 +18,8 @@ parameters:
     # Rajouter le mailer_port
     mailer_port:       ~
 
+    # Rajouter l'adresse mail de l'éditeur du mail
+    mailer_adresse:       ~
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

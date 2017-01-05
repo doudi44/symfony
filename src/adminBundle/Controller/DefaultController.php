@@ -6,6 +6,9 @@ namespace adminBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -54,11 +57,9 @@ class DefaultController extends Controller
             $message = \Swift_Message::newInstance()
                 ->setSubject('Formulaire de contact')
                 ->setFrom($data['email'])
-                ->setTo('chezmoi@toto.com')
+                ->setTo($this->getParameter('mailer_adress'))
                 ->setBody(
-                    $this->renderView(
-                    // app/Resources/views/Emails/registration.html.twig
-                        'email/form_contact.html.twig',
+                    $this->renderView('email/form_contact.html.twig',
                         [
                             "data" => $data
                         ]),
@@ -91,5 +92,107 @@ class DefaultController extends Controller
                                     "formContact" => $formContact->createView()
                                 ]);
     }
+
+    /**
+     * @Route("/feedback",name="admin_feedback")
+     */
+    public function feedbackAction(Request $request)
+    {
+
+        $formFeedback = $this->createFormBuilder()
+            ->add('page',UrlType::class)
+            ->add('bug', ChoiceType::class, [
+                "choices" => [
+                    "technique" => "technique",
+                    "design" => "design",
+                    "marketing" => "marketing",
+                    "autre" => "autre"
+                ]
+            ])
+            ->add('firstname', TextType::class)
+            ->add('lastname', TextType::class)
+            ->add('email', EmailType::class)
+            ->add('date', DateType::class,[
+                'format' => 'd/MMM/y',
+                'years' => range(date('Y')-10, date('Y')+10)
+            ])
+            ->add('message', TextareaType::class)
+            ->getForm();
+
+
+        $formFeedback->handleRequest($request);
+
+
+        if ($formFeedback->isSubmitted() && $formFeedback->isValid()){
+
+
+
+            // faire des dump sur la requete :
+
+            //dump($request->request->all());
+            //dump($formContact->get('firstname')->getData());
+
+            //mettre les infos de la requete dans une variable
+
+            $data = $formFeedback->getData();
+
+
+
+            // envoie du mail
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Formulaire de feedback')
+                ->setFrom($data['email'])
+                ->setTo($this->getParameter('mailer_adress'));
+
+            $phraseCopie = false;
+
+            if ($request->query->get('admin')){
+
+                $message->addCc('admin@admin.com');
+                $phraseCopie = $request->query->get('prenom').' est en copie.';
+
+            }
+
+            $message->setBody(
+                    $this->renderView(
+                        'email/form_feedback.html.twig',
+                        [
+                            "data" => $data,
+                            "copie" => $phraseCopie
+                        ]),
+                    'text/html'
+                )
+                ->addPart(
+                    $this->renderView('email/form_feedback.txt.twig',
+                        [
+                            "data" => $data,
+                            "copie" => $phraseCopie
+                        ]),
+                    'text/plain'
+                )
+
+            ;
+
+            $this->get('mailer')->send($message);
+
+
+            // affichage d'un message de success
+
+            $this->addFlash('success','Votre email a bien été envoyé');
+
+            //rediredtion
+
+            return $this->redirectToRoute('admin_feedback');
+
+
+        }
+
+        return $this->render('Default/feedback.html.twig',
+            [
+                "formFeedback" => $formFeedback->createView()
+            ]);
+    }
+
 
 }
