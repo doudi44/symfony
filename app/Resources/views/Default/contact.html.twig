@@ -1,0 +1,54 @@
+
+{% extends 'layout.html.twig' %}
+
+{% block titleContent %}
+    Contact
+{% endblock %}
+
+{% block content %}
+
+    {{ dump(app.session) }}
+
+    {# Affichage du message de success	#}
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(formContact) }}
+
+    <div>
+        {# affiche les erreurs du champ firstname #}
+        {{ form_errors(formContact.firstname) }}
+
+        {# affiche la balise label du champ firtsname #}
+        {{ form_label(formContact.firstname, "Votre prénom et nom", {label_attr: {class: 'form-control'}}) }}
+
+        {# affiche la balise input de type text du champ firtsname #}
+        {{ form_widget(formContact.firstname, {attr: {placeholder: "votre prénom"}}) }}
+
+        {{ form_errors(formContact.lastname) }}
+
+        {{ form_widget(formContact.lastname, {attr: {placeholder: "votre nom"}}) }}
+
+    </div><br>
+
+
+    <div>
+        {{ form_errors(formContact.email) }}
+        {{ form_label(formContact.email, "Votre email", {label_attr:{class: 'form-control'}}) }}
+        {{ form_widget(formContact.email, {attr: { placeholder: 'email',class:"form-control"  }} ) }}
+    </div>
+    <br>
+
+    <div>
+        {{ form_errors(formContact.content) }}
+        {{ form_label(formContact.content, "Votre message", {label_attr:{class: 'form-control'}}) }}
+        {{ form_widget(formContact.content,{attr:{class:"form-control"}}) }}
+    </div><br><br>
+
+    <button>Envoyer</button>
+    {{ form_end(formContact) }}
+
+{% endblock %}
