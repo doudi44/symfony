@@ -1,0 +1,37 @@
+
+{% extends 'layout.html.twig' %}
+
+{#
+
+
+#}
+
+{% block titleContent %}
+    Base de donné produit
+{% endblock %}
+
+
+
+{% block content %}
+
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+
+    {{ form_start(formProduct) }}
+    {{ form_row(formProduct) }}
+
+    <button>Ajouter</button>
+
+    {{ form_end(formProduct) }}
+
+    <br><br>
+
+
+    <a href="{{ path('admin_produits') }}"><button class="btn btn-success">Retour</button></a>
+
+
+{% endblock %}

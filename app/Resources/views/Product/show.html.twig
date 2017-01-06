@@ -3,40 +3,6 @@
 
 {#
 
- // TROUVER LE MOYEN D'ENVOYER UNIQUEMENT LE PRODUIT AYANT LE BON ID ($id doit correspondre à un id existant dans $products)
-        return $this->render('Product:show.html.twig');
-
-  - Création d'une route permettant de voir un film
- - Utilisation des prefix
- - Créer la route suivante  /admin/catégories  permettant d'afficher les catégories suivantes sous forme de tableau (identique aux produits) :
- $categories = [
-    1 => [
-        "id" => 1,
-        "title" => "Homme",
-        "description" => "lorem ipsum \n suite du contenu",
-        "date_created" => new \DateTime('now'),
-        "active" => true
-    ],
-    2 => [
-        "id" => 2,
-        "title" => "Femme",
-        "description" => "<strong>lorem</strong> ipsum",
-        "date_created" => new \DateTime('-10 Days'),
-        "active" => true
-    ],
-    3 => [
-        "id" => 3,
-        "title" => "Enfant",
-        "description" => "lorem ipsum",
-        "date_created" => new \DateTime('-1 Days'),
-        "active" => false
-    ],
-];
-
-- Afficher "active" ou "non active" en fonction de la propriété active
-- Afficher le nombre de caractère de la description
-- Trouver un moyen d’interpréter le strong contenu dans la description de la catégorie femme
-- Conserver le saut de ligne pour la catégorie homme
 #}
 
 {% block titleContent %}
@@ -45,15 +11,15 @@
 
 {% block content %}
     <div style="text-align:center">
-        {% if product.id == 'x' %}
-            <h1 class="btn-danger">Produit introuvable</h1><br><br>
-            <a href="{{ path('admin_produits') }}" class="btn-lg btn-success">Retour</a>
-        {% else %}
-                <div class="btn btn-lg btn-success">Titre : {{ product.title }}</div>
+                <h1 class="bg-navy-active">Titre : {{ product.title }}</h1>
                 <h2>Description : {{ product.description }}</h2>
-                <h2>Date : {{ product.date_created.date|date("d/m/y") }}</h2>
-                <h2 class="btn btn-lg btn-danger">Prix : {{ product.prix }}€</h2>
-        {% endif %}
+                {# <h2>Date : {{ product.date_created.date|date("d/m/y") }}</h2> #}
+                <h2 class="bg-navy-active">Prix : {{ product.price }}€</h2>
     </div>
+
+    <br><br>
+
+    <a href="{{ path('admin_produits') }}"><button class="btn btn-success">Retour</button></a>
+
 
 {% endblock %}

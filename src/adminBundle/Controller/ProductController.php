@@ -2,8 +2,11 @@
 
 namespace adminBundle\Controller;
 
+use adminBundle\Entity\Product;
+use adminBundle\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends Controller
 {
@@ -12,37 +15,12 @@ class ProductController extends Controller
      */
     public function productAction()
     {
-    	$products = [
-            [
-                "id" => 1,
-                "title" => "Mon premier produit",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 10
-            ],
-            [
-                "id" => 2,
-                "title" => "Mon deuxième produit",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 20
-            ],
-            [
-                "id" => 3,
-                "title" => "Mon troisième produit",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 30
-            ],
-            [
-                "id" => 4,
-                "title" => "",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 410
-            ],
-        ];
 
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->getRepository('adminBundle:Product')
+            ->findAll();
+
+        //die(dump($products));
 
         return $this->render('Product/tousLesProduits.html.twig',
         	[
@@ -59,52 +37,31 @@ class ProductController extends Controller
 
     public function showAction($id)
     {
-        $products = [
-            [
-                "id" => 1,
-                "title" => "Mon premier produit",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 10
-            ],
-            [
-                "id" => 2,
-                "title" => "Mon deuxième produit",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 20
-            ],
-            [
-                "id" => 3,
-                "title" => "Mon troisième produit",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 30
-            ],
-            [
-                "id" => 4,
-                "title" => "",
-                "description" => "lorem ipsum",
-                "date_created" => new \DateTime('now'),
-                "prix" => 410
-            ],
-        ];
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository('adminBundle:Product')
+            ->find($id);
+        //die(dump($products));
 
-        $product = [
+/*        $product = [
             "id" => 'x'
         ];
 
         foreach($products as $p){
-            if($p['id'] == $id){
+
+            if($p->get('id') == $id){
+
                 $product = $p;
                 break;
             }
+
         }
 
-        //if($product["id"] == 'x'){
+
+
+        if($product["id"] == 'x'){
             //affiche une page d'exeption
-            //throw $this->createNotFoundException("Le produit n'existe pas");
-        //}
+            throw $this->createNotFoundException("Le produit n'existe pas");
+        }*/
 
         return $this->render('Product/show.html.twig',
             [
@@ -112,5 +69,72 @@ class ProductController extends Controller
             ]);
 
     }
+
+    /**
+     * @Route("/produits/creer",name="creerProduit")
+     */
+
+
+    public function createAction(Request $request)
+    {
+        $product = new Product();
+
+        $formProduct = $this->createForm(ProductType::class, $product);
+
+        $formProduct->handleRequest($request);
+
+        if ($formProduct->isSubmitted() && $formProduct->isValid()) {
+
+
+
+            //pour sauvegarde dans la base de donnée
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre produit a bien été sauvegardé');
+
+            return $this->redirectToRoute('creerProduit');
+        }
+        return $this->render('Product/create.html.twig',[
+            'formProduct' => $formProduct->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/produit/edit/{id}",name="editProduit")
+     */
+    //     , requirements={"id" = "\d+"}  pour filtrer les chiffres
+
+
+    public function editAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository('adminBundle:Product')
+            ->find($id);
+
+
+        $formProduct = $this->createForm(ProductType::class, $product);
+
+        $formProduct->handleRequest($request);
+
+        if ($formProduct->isSubmitted() && $formProduct->isValid()) {
+
+            //pour sauvegarde dans la base de donnée
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre produit a bien été sauvegardé');
+
+            return $this->redirectToRoute('editProduit',['id' => $id]);
+        }
+        return $this->render('Product/edit.html.twig',[
+            'formProduct' => $formProduct->createView()
+        ]);
+
+    }
+
+
 
 }
