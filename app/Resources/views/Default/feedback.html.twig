@@ -14,16 +14,16 @@
         </div>
     {% endfor %}
 
-    {{ form_start(formFeedback) }}
+    {{ form_start(formFeedback, {attr: {novalidate:"novalidate"}}) }}
 
     <div>
-        {{ form_errors(formFeedback.firstname) }}
 
-        {{ form_label(formFeedback.firstname, "Votre prénom et nom", {label_attr: {class: 'form-control'}}) }}
+        {{ form_label(formFeedback.firstname, "Votre prénom et nom", {label_attr: {class: 'form-control bg-navy-active'}}) }}
+        {{ form_errors(formFeedback.firstname) }}
+        {{ form_errors(formFeedback.lastname) }}
 
         {{ form_widget(formFeedback.firstname, {attr: {placeholder: "votre prénom"}}) }}
 
-        {{ form_errors(formFeedback.lastname) }}
 
         {{ form_widget(formFeedback.lastname, {attr: {placeholder: "votre nom"}}) }}
 
@@ -31,9 +31,10 @@
 
     <div>
 
+
+        {{ form_label(formFeedback.page, "Page / Url", {label_attr: {class: 'form-control bg-navy-active'}}) }}
         {{ form_errors(formFeedback.page) }}
 
-        {{ form_label(formFeedback.page, "Page / Url", {label_attr: {class: 'form-control'}}) }}
         <div class="input-group">
             <span class="input-group-addon">http</span>
             {{ form_widget(formFeedback.page, {attr: {placeholder: "Url",class:"form-control"}}) }}
@@ -44,24 +45,27 @@
 
     <div>
 
+        {{ form_label(formFeedback.bug, "Bug", {label_attr: {class: 'form-control bg-navy-active'}}) }}
         {{ form_errors(formFeedback.bug) }}
-        {{ form_label(formFeedback.bug, "Bug", {label_attr: {class: 'form-control'}}) }}
+
         {{ form_widget(formFeedback.bug) }}
 
     </div><br>
 
     <div>
 
+        {{ form_label(formFeedback.email, "Email", {label_attr: {class: 'form-control bg-navy-active'}}) }}
         {{ form_errors(formFeedback.email) }}
-        {{ form_label(formFeedback.email, "Email", {label_attr: {class: 'form-control'}}) }}
+
         {{ form_widget(formFeedback.email, {attr: {placeholder: "ex : angeoz@msn.com"}}) }}
 
     </div><br>
 
     <div>
 
+        {{ form_label(formFeedback.date, "Date du problème", {label_attr: {class: 'form-control bg-navy-active'}}) }}
         {{ form_errors(formFeedback.date) }}
-        {{ form_label(formFeedback.date, "Date du problème", {label_attr: {class: 'form-control'}}) }}
+
         {{ form_widget(formFeedback.date) }}
 
 
@@ -69,8 +73,9 @@
 
     <div>
 
+        {{ form_label(formFeedback.message, "Message", {label_attr: {class: 'form-control bg-navy-active'},id:"editor1"}) }}
         {{ form_errors(formFeedback.message) }}
-        {{ form_label(formFeedback.message, "Message", {label_attr: {class: 'form-control'},id:"editor1"}) }}
+
         {{ form_widget(formFeedback.message,{attr:{class:'form-control'}}) }}
 
     </div><br><br>

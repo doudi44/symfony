@@ -9,11 +9,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 class DefaultController extends Controller
 {
@@ -34,10 +37,38 @@ class DefaultController extends Controller
     public function contactAction(Request $request)
     {
         $formContact = $this->createFormBuilder()
-            ->add('firstname',TextType::class)
-            ->add('lastname', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('content', TextareaType::class)
+            ->add('firstname',TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer votre prénom']),
+                    new Assert\Length([
+                        'min' => 2,
+                        'minMessage' => 'Votre prénom doit faire au moins {{ limit }} caractères'
+                    ])
+                ]
+            ])
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer votre prénom'])
+                ]
+            ])
+            ->add('email', EmailType::class,[
+                'constraints' => [
+                    new Assert\Email([
+                        'message' => 'Votre email "{{ value }} est faux'
+                    ]),
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer un email'])
+
+                ]
+            ])
+            ->add('content', TextareaType::class,[
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer votre message']),
+                    new Assert\Length([
+                        'max' => 150,
+                        'maxMessage' => 'Votre message doit faire au maximum {{ limit }} caractères'
+                    ])
+                ]
+            ])
             ->getForm();
 
         $formContact->handleRequest($request);
@@ -99,24 +130,76 @@ class DefaultController extends Controller
     public function feedbackAction(Request $request)
     {
 
+
+        $choixBug = [
+            "technique" => "technique",
+            "design" => "design",
+            "marketing" => "marketing",
+            "autre" => "autre"
+        ];
+
         $formFeedback = $this->createFormBuilder()
-            ->add('page',UrlType::class)
-            ->add('bug', ChoiceType::class, [
-                "choices" => [
-                    "technique" => "technique",
-                    "design" => "design",
-                    "marketing" => "marketing",
-                    "autre" => "autre"
+            ->add('page',UrlType::class, [
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer un Url']),
+                    new Assert\Url(['message' => 'l\'Url {{ value }} n\'est pas valide'])
                 ]
             ])
-            ->add('firstname', TextType::class)
-            ->add('lastname', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('bug', ChoiceType::class, [
+                "choices" => $choixBug,
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer choisir un Bug de la liste']),
+                    new Assert\Choice([
+                        'choices' => $choixBug,
+                        'message' => 'Choisir un Bug valide'
+                    ])
+                ]
+            ])
+            ->add('firstname', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer votre prénom']),
+                    new Assert\Length([
+                        'min' => 2,
+                        'minMessage' => 'Votre prénom doit faire au moins {{ limit }} caractères'
+                    ])
+                ]
+            ])
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer votre nom'])
+                ]
+            ])
+            ->add('email', EmailType::class,[
+                'constraints' => [
+                    new Assert\Email(['message' => 'Votre email "{{ value }} est faux']),
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer un email'])
+
+                ]
+            ])
             ->add('date', DateType::class,[
                 'format' => 'd/MMM/y',
-                'years' => range(date('Y')-10, date('Y')+10)
-            ])
-            ->add('message', TextareaType::class)
+                'years' => range(date('Y')-10, date('Y')+10),
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer une date']),
+                    new Assert\Date(['message' => 'Veuillez rentrer une date valide'])
+                    ]
+                ])
+            ->add('message', TextareaType::class,[
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez rentrer votre message']),
+                    new Assert\Length([
+                        'min' => 10,
+                        'minMessage' => 'Votre message doit faire au minimum {{ limit }} caractères',
+                        'max' => 150,
+                        'maxMessage' => 'Votre message doit faire au maximum {{ limit }} caractères'
+                    ]),
+                    new Assert\Regex([
+                        "pattern" => "/salope |con |connard /i",
+                        'match' => false,
+                        'message' => 'Merci de modérer vos propos',
+                    ])
+                    ]
+                ])
             ->getForm();
 
 
@@ -170,9 +253,7 @@ class DefaultController extends Controller
                             "copie" => $phraseCopie
                         ]),
                     'text/plain'
-                )
-
-            ;
+                );
 
             $this->get('mailer')->send($message);
 
