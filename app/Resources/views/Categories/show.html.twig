@@ -18,17 +18,13 @@
         {% else %}
             <div class="btn btn-lg btn-success">Titre : {{ categorie.title }}</div>
             <h2>Description : {{ categorie.description|raw|nl2br }} ({{ categorie.description|striptags|length }})</h2>
-            <h2>Date : {{ categorie.date_created.date|date("d/m/y") }}</h2>
-            <h2 class="btn btn-lg btn-danger">Active :
-
-                {% if categorie.active %}
-                    active
-                {% else %}
-                    non active
-                {% endif %}
-
-            </h2>
+            <h2>Position : {{ categorie.position }}</h2>
         {% endif %}
     </div>
+
+    <br><br>
+
+    <a href="{{ path('admin_categories') }}"><button class="btn btn-success">Retour</button></a>
+
 
 {% endblock %}

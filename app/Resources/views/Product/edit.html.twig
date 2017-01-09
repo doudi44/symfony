@@ -22,7 +22,39 @@
 
 
     {{ form_start(formProduct) }}
-    {{ form_row(formProduct) }}
+    <div>
+
+        {{ form_label(formProduct.title, "Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.title) }}
+        {{ form_widget(formProduct.title, {attr: {placeholder: "Titre"}}) }}
+
+    </div><br>
+
+    <div>
+
+        {{ form_label(formProduct.description, "Description", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.description) }}
+        {{ form_widget(formProduct.description, {attr: {placeholder: "Description"}}) }}
+
+    </div><br>
+
+    <div>
+
+        {{ form_label(formProduct.price, "Prix", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.price) }}
+        {{ form_widget(formProduct.price) }}
+
+    </div><br>
+
+    <div>
+
+        {{ form_label(formProduct.quantity, "Quantité", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.quantity) }}
+        {{ form_widget(formProduct.quantity) }}
+
+    </div><br>
+
+
 
     <button>Modifier</button>
 

@@ -18,7 +18,14 @@
 
 {% block content %}
 
-      <div class="row">
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+
+    <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
@@ -59,7 +66,7 @@
 		                  {# <td>{{products.0.date_created.date|date("d/m/y")}}</td> #}
 		                  <td><a href="{{ path('showProduit',{id:product.id}) }}" class="btn btn-block btn-primary">Voir</a></td>
 		                  <td><a href="{{ path('editProduit',{id:product.id}) }}" class="btn btn-block btn-success">Editer</a></td>
-		                  <td><div class="btn btn-block btn-danger">Supprimer</div></td>
+		                  <td><a href="{{ path('removeProduit',{id:product.id}) }}" class="btn btn-block btn-danger">Supprimer</a></td>
 		                </tr>
 
                 	{% endfor %}
@@ -68,7 +75,6 @@
               </table>
             </div>
             <!-- /.box-body -->
-              Moyenne des prix : {{ total/products|length }}€
 
               <!-- BAR CHART -->
               <div class="box box-success">
@@ -119,7 +125,7 @@
                             "info": "Montrer page _PAGE_ à _PAGES_",
                             "infoEmpty": "Pas d'enregistrements pour cette recherche",
                             "infoFiltered": "(filtered from _MAX_ total records)"
-                        }
+                        }}
             );
         });
     </script>

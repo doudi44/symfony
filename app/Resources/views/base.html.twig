@@ -71,6 +71,46 @@
             <!-- AdminLTE for demo purposes -->
             <script src="{{ asset("dist/js/demo.js") }}"></script>
 
+            {# AJAX #}
+            <script>
+                /*les boutons danger de la class table sont attrapés */
+                $(".table").on("click",".btn-danger",function(ev){
+
+                    ev.preventDefault();
+                    if (confirm("Êtes vous sûr ?")){
+                        //requete ajax
+                        var linkUrl = $(this).attr('href');
+                        var elementA = $(this);
+                        var table = elementA.closest('.table');
+
+                        $.ajax({
+                            url : linkUrl,
+                            method: "GET",
+                        }).done(function(data){
+/*
+                            console.log(data);
+*/
+                            elementA.closest('tr').fadeOut(700,function(){
+                                $(this).remove();
+                                //supprimer les éventuels messages existants
+                                $('.message_ajax').remove();
+                                // ajout du message
+
+                                table.before('<p class="alert alert-success message_ajax">'+data.message+'</p>');
+                                $('.message_ajax').delay(3000).fadeOut();
+
+
+
+                            });
+
+                        });
+
+
+                    }
+                });
+            </script>
+
+
         {% endblock %}
 
 </body>

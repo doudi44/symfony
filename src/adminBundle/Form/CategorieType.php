@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 
-class ProductType extends AbstractType
+class CategorieType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,7 @@ class ProductType extends AbstractType
     {
         $builder->add('title')
             ->add('description')
-            ->add('price')
-            ->add('quantity')
-        ;
+            ->add('position')        ;
     }
     
     /**
@@ -27,8 +25,9 @@ class ProductType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'adminBundle\Entity\Product'
+        $resolver
+            ->setDefaults(array(
+            'data_class' => 'adminBundle\Entity\Categorie'
         ));
     }
 
@@ -37,7 +36,7 @@ class ProductType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'adminbundle_product';
+        return 'adminbundle_categorie';
     }
 
 

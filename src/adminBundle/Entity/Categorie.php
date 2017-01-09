@@ -5,15 +5,16 @@ namespace adminBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 /**
- * Product
+ * Categorie
  *
- * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="adminBundle\Repository\ProductRepository")
+ * @ORM\Table(name="categorie")
+ * @ORM\Entity(repositoryClass="adminBundle\Repository\CategorieRepository")
  */
-class Product
+class Categorie
 {
     /**
      * @var int
@@ -29,21 +30,22 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="title", type="string", length=100, nullable=true, unique=true)
+     *
+     * @Assert\NotBlank(
+     *     message="Veuillez remplir ce champ"
+     * )
      * @Assert\Length(
      *      min=2,
-     *      minMessage="Votre titre doit contenir au moins {{ limit }} caractères"
+     *      minMessage="Votre titre doit contenir au minimum {{ limit }} caractères"
      *  )
-
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     *
+     * @ORM\Column(name="description", type="text")
      * @Assert\NotBlank()
      * @Assert\Length(
      *      max=300,
@@ -53,24 +55,14 @@ class Product
     private $description;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="price", type="float")
-     * @Assert\NotBlank()
-     * @Assert\Range(
-     *      min=0.01,
-     *      minMessage="Votre prix doit être suppérieur à 0"
-     *  )
-     */
-    private $price;
-
-    /**
      * @var int
      *
-     * @ORM\Column(name="quantity", type="integer")
+     * @ORM\Column(name="position", type="integer")
+     *
      * @Assert\NotBlank()
+     *
      */
-    private $quantity;
+    private $position;
 
 
     /**
@@ -88,7 +80,7 @@ class Product
      *
      * @param string $title
      *
-     * @return Product
+     * @return Categorie
      */
     public function setTitle($title)
     {
@@ -112,7 +104,7 @@ class Product
      *
      * @param string $description
      *
-     * @return Product
+     * @return Categorie
      */
     public function setDescription($description)
     {
@@ -132,51 +124,41 @@ class Product
     }
 
     /**
-     * Set price
+     * Set position
      *
-     * @param float $price
+     * @param integer $position
      *
-     * @return Product
+     * @return Categorie
      */
-    public function setPrice($price)
+    public function setPosition($position)
     {
-        $this->price = $price;
+        $this->position = $position;
 
         return $this;
     }
 
     /**
-     * Get price
-     *
-     * @return float
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set quantity
-     *
-     * @param integer $quantity
-     *
-     * @return Product
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity
+     * Get position
      *
      * @return int
      */
-    public function getQuantity()
+    public function getPosition()
     {
-        return $this->quantity;
+        return $this->position;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload){
+        //die(dump($this->getPosition()));
+
+        if ($this->getPosition() == 0 && $this->getTitle() != "Par défaut"){
+            $context->buildViolation('La position "0" est réservé à la catégorie "par défaut"')
+                // permet d'attacher l'erreur à une propriété
+                //->atPath('position')
+                ->addViolation();
+        }
     }
 }
 

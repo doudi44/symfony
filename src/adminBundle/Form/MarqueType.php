@@ -6,20 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-
-class ProductType extends AbstractType
+class MarqueType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')
-            ->add('description')
-            ->add('price')
-            ->add('quantity')
-        ;
+        $builder->add('title')        ;
     }
     
     /**
@@ -28,7 +22,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'adminBundle\Entity\Product'
+            'data_class' => 'adminBundle\Entity\Marque'
         ));
     }
 
@@ -37,7 +31,7 @@ class ProductType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'adminbundle_product';
+        return 'adminbundle_marque';
     }
 
 

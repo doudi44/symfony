@@ -10,6 +10,13 @@
 {% endblock %}
 
 {% block content %}
+
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
     <div style="text-align:center">
                 <h1 class="bg-navy-active">Titre : {{ product.title }}</h1>
                 <h2>Description : {{ product.description }}</h2>

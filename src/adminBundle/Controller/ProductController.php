@@ -6,6 +6,7 @@ use adminBundle\Entity\Product;
 use adminBundle\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends Controller
@@ -30,9 +31,9 @@ class ProductController extends Controller
 
 
     /**
-     * @Route("/produit/{id}",name="showProduit")
+     * @Route("/produit/{id}",name="showProduit"), requirements={"id" = "\d+"}
      */
-    //     , requirements={"id" = "\d+"}  pour filtrer les chiffres
+    // pour filtrer les chiffres
 
 
     public function showAction($id)
@@ -103,9 +104,9 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/produit/edit/{id}",name="editProduit")
+     * @Route("/produit/edit/{id}",name="editProduit"), requirements={"id" = "\d+"}
      */
-    //     , requirements={"id" = "\d+"}  pour filtrer les chiffres
+    // pour filtrer les chiffres
 
 
     public function editAction(Request $request, $id)
@@ -113,6 +114,10 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository('adminBundle:Product')
             ->find($id);
+
+        if  (!$product){
+            throw $this->createNotFoundException("Le produit n'existe pas");
+        }
 
 
         $formProduct = $this->createForm(ProductType::class, $product);
@@ -133,6 +138,35 @@ class ProductController extends Controller
             'formProduct' => $formProduct->createView()
         ]);
 
+    }
+
+    /**
+     * @Route("/produit/supprimer/{id}", name="removeProduit"), requirements={"id" = "\d+"}
+     */
+    // pour filtrer les chiffres
+
+    public function removeAction($id,Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository('adminBundle:Product')->find($id);
+
+        if(!$product){
+            throw $this->createNotFoundException("Le produit n'existe pas");
+
+        }
+
+        $em->remove($product);
+        $em->flush();
+
+        $message = 'Le produit a été supprimé';
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['message' => $message]);
+        }
+
+        $this->addFlash('success',$message);
+
+        return $this->redirectToRoute('admin_produits');
     }
 
 

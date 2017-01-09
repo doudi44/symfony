@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{#
+
+
+#}
+
+{% block titleContent %}
+    Base de donné catégorie
+{% endblock %}
+
+
+
+{% block content %}
+
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+
+    {{ form_start(formCategorie) }}
+    {{ form_errors(formCategorie) }}
+
+    <div>
+
+        {{ form_label(formCategorie.title, "Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formCategorie.title) }}
+        {{ form_widget(formCategorie.title, {attr: {placeholder: "Titre"}}) }}
+
+    </div><br>
+
+    <div>
+
+        {{ form_label(formCategorie.description, "Description", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formCategorie.description) }}
+        {{ form_widget(formCategorie.description, {attr: {placeholder: "Description"}}) }}
+
+    </div><br>
+
+    <div>
+
+        {{ form_label(formCategorie.position, "Position", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formCategorie.position) }}
+        {{ form_widget(formCategorie.position) }}
+
+    </div><br>
+
+    <button>Ajouter</button>
+
+    {{ form_end(formCategorie) }}
+
+    <br><br>
+
+
+    <a href="{{ path('admin_categories') }}"><button class="btn btn-success">Retour</button></a>
+
+
+{% endblock %}
