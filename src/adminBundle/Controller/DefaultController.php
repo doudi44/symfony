@@ -25,9 +25,16 @@ class DefaultController extends Controller
      */
     public function adminAction()
     {
+
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->getRepository('adminBundle:Product')
+            ->findAll();
+
+        //die(dump($products));
+
         return $this->render('Default/index.html.twig',
         	[
-        		"firstName" => "DOUDI"
+                "products" => $products
         	]);
     }
 

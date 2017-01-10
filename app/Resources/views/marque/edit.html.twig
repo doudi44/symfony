@@ -1,21 +1,28 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
-    <h1>Marque edit</h1>
+{% block titleContent %}
+    Modifier Marque
+{% endblock %}
+
+
+{% block content %}
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {{ form_label(edit_form.title,"Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+    {{ form_errors(edit_form.title) }}
+
+    {{ form_widget(edit_form.title) }}
+        <br><br>
+        <input type="submit" value="Modifier" />
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('marque_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <br><br>
+
+    <a class="btn btn-primary" href="{{ path('marque_index') }}">Retour</a>
 {% endblock %}

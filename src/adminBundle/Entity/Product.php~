@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Marque")
+     * @ORM\ManyToOne(targetEntity="Marque", cascade={"remove"})
      * @ORM\JoinColumn(name="id_marque", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $marque;
@@ -185,28 +185,4 @@ class Product
     }
 
 
-
-    /**
-     * Set marque
-     *
-     * @param \adminBundle\Entity\Marque $marque
-     *
-     * @return Product
-     */
-    public function setMarque(\adminBundle\Entity\Marque $marque)
-    {
-        $this->marque = $marque;
-
-        return $this;
-    }
-
-    /**
-     * Get marque
-     *
-     * @return \adminBundle\Entity\Marque
-     */
-    public function getMarque()
-    {
-        return $this->marque;
-    }
 }

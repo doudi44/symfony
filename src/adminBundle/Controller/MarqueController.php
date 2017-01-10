@@ -5,7 +5,9 @@ namespace adminBundle\Controller;
 use adminBundle\Entity\Marque;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Marque controller.
@@ -20,11 +22,23 @@ class MarqueController extends Controller
      * @Route("/", name="marque_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $get = $request->query->get("ordre","id");
+        //die('get = '.$get);
+
+
         $em = $this->getDoctrine()->getManager();
 
-        $marques = $em->getRepository('adminBundle:Marque')->findAll();
+        $tabOrdre = ["ASC","DESC"];
+
+        //die(dump(in_array($get,$tabOrdre)));
+
+        if (in_array($get,$tabOrdre)){
+            $marques = $em->getRepository('adminBundle:Marque')->findBy([],["title"=>$get]);
+        }else{
+            $marques = $em->getRepository('adminBundle:Marque')->findAll();
+        }
 
         return $this->render('marque/index.html.twig', array(
             'marques' => $marques,
@@ -48,7 +62,10 @@ class MarqueController extends Controller
             $em->persist($marque);
             $em->flush($marque);
 
-            return $this->redirectToRoute('marque_show', array('id' => $marque->getId()));
+            $this->addFlash('success', 'La marque a bien été créé');
+
+
+            return $this->redirectToRoute('marque_new');
         }
 
         return $this->render('marque/new.html.twig', array(
@@ -60,16 +77,14 @@ class MarqueController extends Controller
     /**
      * Finds and displays a marque entity.
      *
-     * @Route("/{id}", name="marque_show")
+     * @Route("/{id}/show", name="marque_show")
      * @Method("GET")
      */
     public function showAction(Marque $marque)
     {
-        $deleteForm = $this->createDeleteForm($marque);
 
         return $this->render('marque/show.html.twig', array(
-            'marque' => $marque,
-            'delete_form' => $deleteForm->createView(),
+            'marque' => $marque
         ));
     }
 
@@ -81,56 +96,51 @@ class MarqueController extends Controller
      */
     public function editAction(Request $request, Marque $marque)
     {
-        $deleteForm = $this->createDeleteForm($marque);
         $editForm = $this->createForm('adminBundle\Form\MarqueType', $marque);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'La marque a bien été sauvegardée');
+
 
             return $this->redirectToRoute('marque_edit', array('id' => $marque->getId()));
         }
 
         return $this->render('marque/edit.html.twig', array(
             'marque' => $marque,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'edit_form' => $editForm->createView()
         ));
     }
 
     /**
      * Deletes a marque entity.
      *
-     * @Route("/{id}", name="marque_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="marque_delete")
+     *
      */
-    public function deleteAction(Request $request, Marque $marque)
+    public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($marque);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $marque = $em->getRepository('adminBundle:Marque')->find($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($marque);
-            $em->flush($marque);
+        if(!$marque){
+            throw $this->createNotFoundException("La marque n'existe pas");
+
         }
+
+        $em->remove($marque);
+        $em->flush();
+
+        $message = 'La marque a été supprimée';
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['message' => $message]);
+        }
+
+        $this->addFlash('success',$message);
 
         return $this->redirectToRoute('marque_index');
     }
 
-    /**
-     * Creates a form to delete a marque entity.
-     *
-     * @param Marque $marque The marque entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Marque $marque)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('marque_delete', array('id' => $marque->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
 }

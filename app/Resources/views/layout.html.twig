@@ -331,10 +331,25 @@
             </a>
             <ul class="treeview-menu">
               <li ><a href="{{ path('admin_categories') }}"><i class="fa fa-circle-o"></i> Tableau Catégories</a></li>
-              <li ><a href="{{ path('creerCategorie') }}"><i class="fa fa-circle-o"></i> Créer catégorie</a></li>
+
+              {{ render(controller("adminBundle:Categorie:renderCategorie")) }}
 
             </ul>
           </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-diamond"></i>
+              <span>Marques</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li ><a href="{{ path('marque_index') }}"><i class="fa fa-circle-o"></i> Tableau marques</a></li>
+              <li ><a href="{{ path('marque_new') }}"><i class="fa fa-circle-o"></i> Créer marque</a></li>
+            </ul>
+          </li>
+
           <li class="treeview">
             <a href="#">
               <i class="fa fa-envelope"></i>
@@ -583,6 +598,7 @@
          immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
   </div>
+
   <!-- ./wrapper -->
 
 {% endblock %}

@@ -10,4 +10,62 @@ namespace adminBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function MyfindAll(){
+        // Création d'une requête grâce au builder
+        // findAll() maison
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select("prod")
+            ->from("adminBundle:Product", "prod")
+            ->getQuery();
+
+         return $query->getResult();
+    }
+
+    public function myFind($id)
+    {
+
+        // Creation d'une requête DQL
+        // find() maison
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('prod')
+            ->from("adminBundle:Product","prod")
+            ->where('prod.id = :identifiant')
+            ->setParameter('identifiant', $id)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+
+    public function quantitySmallAll()
+    {
+        $q = 5;
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('prod')
+            ->from("adminBundle:Product","prod")
+            ->where('prod.quantity < :quantity')
+            ->setParameter('quantity', $q)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function quantityZeroAll()
+    {
+        $q = 0;
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('prod')
+            ->from("adminBundle:Product","prod")
+            ->where('prod.quantity = :quantity')
+            ->setParameter('quantity', $q)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+
+
+
 }

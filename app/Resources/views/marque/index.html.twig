@@ -1,14 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
-    <h1>Marques list</h1>
+{% block titleContent %}
+    Toutes les Marques        <a class="btn btn-primary" style="margin-left:50px" href="{{ path('marque_new') }}">Nouveau</a>
+{% endblock %}
 
-    <table>
+
+{% block content %}
+
+    {% for flash_message in app.session.flashBag.get('success') %}
+
+        <br><br>
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+
+        <br><br>
+    {% endfor %}
+
+
+    <a href="{{ path("marque_index",{ordre:"DESC"}) }}" class="btn btn-info">Trier par ordre alphabétique A-Z</a>
+    <a href="{{ path("marque_index",{ordre:"ASC"}) }}" class="btn btn-info">Trier par ordre alphabétique Z-A</a>
+    <a href="{{ path("marque_index") }}" class="btn btn-info">Trier par id</a>
+
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Actions</th>
+                <th colspan="3">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -16,24 +35,13 @@
             <tr>
                 <td><a href="{{ path('marque_show', { 'id': marque.id }) }}">{{ marque.id }}</a></td>
                 <td>{{ marque.title }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('marque_show', { 'id': marque.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('marque_edit', { 'id': marque.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+                <td><a class="btn btn-block btn-primary" href="{{ path('marque_show', { 'id': marque.id }) }}">voir</a></td>
+                <td><a class="btn btn-block  btn-success" href="{{ path('marque_edit', { 'id': marque.id }) }}">modifier</a></td>
+                <td><a class="btn btn-block  btn-danger" href="{{ path('marque_delete', { 'id': marque.id }) }}">supprimer</a></td>
+
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('marque_new') }}">Create a new marque</a>
-        </li>
-    </ul>
 {% endblock %}

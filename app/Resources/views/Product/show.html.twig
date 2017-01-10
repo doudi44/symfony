@@ -22,11 +22,15 @@
                 <h2>Description : {{ product.description }}</h2>
                 {# <h2>Date : {{ product.date_created.date|date("d/m/y") }}</h2> #}
                 <h2 class="bg-navy-active">Prix : {{ product.price }}€</h2>
+            <h2 class="bg-navy-active">Dépend de la marque : <a href="{{ path('marque_show',{id:product.marque.id}) }}">{{ product.marque.title }}</a></h2>
     </div>
 
     <br><br>
 
-    <a href="{{ path('admin_produits') }}"><button class="btn btn-success">Retour</button></a>
+    <a href="{{ path('admin_produits') }}"><button class="btn btn-primary">Retour</button></a>
+    <a href="{{ path('editProduit',{id:product.id}) }}"><button class="btn btn-success">Modifier</button></a>
+    <a href="{{ path('removeProduit',{id:product.id}) }}"><button class="btn btn-danger">Supprimer</button></a>
+
 
 
 {% endblock %}

@@ -63,3 +63,4 @@ class Marque
         return $this->title;
     }
 }
+

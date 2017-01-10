@@ -23,8 +23,8 @@ class CategorieController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository('adminBundle:Categorie')
-            ->findBy([],['position'=> "ASC"] );
-
+            //->findBy([],['position'=> "ASC"] );
+                ->NbreActifEtInactif();
 
 
         return $this->render('Categories/categories.html.twig',
@@ -154,6 +154,14 @@ class CategorieController extends Controller
         $this->addFlash('success',$message);
 
         return $this->redirectToRoute('admin_categories');
+    }
+
+    public function renderCategorieAction() {
+        $em = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository('adminBundle:Categorie')->findAll();
+        //die(dump($categories));
+
+        return $this->render('Categories/renderCategories.html.twig', ['categories' => $categories]);
     }
 
 

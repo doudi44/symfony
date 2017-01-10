@@ -1,16 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
-    <h1>Marque creation</h1>
+{% block titleContent %}
+    Nouvelle marque
+{% endblock %}
+
+
+{% block content %}
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        {{ form_label(form.title,"Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+    {{ form_errors(form.title) }}
+
+    {{ form_widget(form.title) }}
+    <br><br>
+        <input type="submit" value="Créer" />
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('marque_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <br><br>
+
+    <a class="btn btn-primary" href="{{ path('marque_index') }}">Retour</a>
 {% endblock %}
