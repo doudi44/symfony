@@ -24,7 +24,7 @@ class CategorieController extends Controller
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository('adminBundle:Categorie')
             //->findBy([],['position'=> "ASC"] );
-                ->NbreActifEtInactif();
+                ->findAll();
 
 
         return $this->render('Categories/categories.html.twig',

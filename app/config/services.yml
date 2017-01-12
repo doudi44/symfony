@@ -7,3 +7,13 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    admin.service.string:
+        class: adminBundle\Service\StringService
+    admin.service.upload:
+        class: adminBundle\Service\UploadService
+        arguments: ["@admin.service.string","%dossier_img%"]
+    admin.listener.product:
+        class: adminBundle\Listener\ProductListener
+        arguments: ["@admin.service.upload"]
+        tags:
+            - { name: doctrine.orm.entity_listener }

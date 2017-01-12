@@ -86,10 +86,9 @@ class ProductController extends Controller
 
         if ($formProduct->isSubmitted() && $formProduct->isValid()) {
 
-
-
             //pour sauvegarde dans la base de donnée
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($product);
             $em->flush();
 

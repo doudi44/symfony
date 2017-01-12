@@ -54,6 +54,32 @@
 
     </div><br>
 
+    <div>
+        {{ form_label(formProduct.marque, "Marque", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.marque) }}
+
+        {{ form_widget(formProduct.marque) }}
+
+    </div><br>
+
+    <div>
+        {{ form_label(formProduct.categorie, "Categorie", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.categorie) }}
+
+        {{ form_widget(formProduct.categorie) }}
+
+    </div><br>
+
+    <div>
+
+        {{ form_label(formProduct.image, "Image", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+
+        {{ form_errors(formProduct.image) }}
+
+        {{ form_widget(formProduct.image) }}
+
+    </div><br>
+
 
 
     <button>Modifier</button>

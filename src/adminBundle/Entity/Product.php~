@@ -12,14 +12,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="adminBundle\Repository\ProductRepository")
+ * @ORM\EntityListeners({"adminBundle\Listener\ProductListener"})
  */
 class Product
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Marque", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Marque")
      * @ORM\JoinColumn(name="id_marque", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $marque;
+    /**
+     * @ORM\ManyToMany(targetEntity="Categorie")
+     * @ORM\JoinColumn(name="id_categorie", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $categorie;
+
+
     /**
      * @var int
      *
@@ -30,6 +38,25 @@ class Product
      *
      */
     private $id;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="dateCreation", type="datetime")
+     *
+     *
+     */
+    private $dateCreation;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="dateModif", type="datetime")
+     *
+     *
+     */
+    private $dateModif;
+
 
     /**
      * @var string
@@ -43,6 +70,15 @@ class Product
 
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=100)
+     *
+     */
+    private $image;
+
 
     /**
      * @var string
@@ -185,4 +221,117 @@ class Product
     }
 
 
+
+    /**
+     * Set marque
+     *
+     * @param \adminBundle\Entity\Marque $marque
+     *
+     * @return Product
+     */
+    public function setMarque(\adminBundle\Entity\Marque $marque)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Get marque
+     *
+     * @return \adminBundle\Entity\Marque
+     */
+    public function getMarque()
+    {
+        return $this->marque;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categorie = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add categorie
+     *
+     * @param \adminBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function addCategorie(\adminBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie[] = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Remove categorie
+     *
+     * @param \adminBundle\Entity\Categorie $categorie
+     */
+    public function removeCategorie(\adminBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie->removeElement($categorie);
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     *
+     * @return Product
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModif
+     *
+     * @param \DateTime $dateModif
+     *
+     * @return Product
+     */
+    public function setDateModif($dateModif)
+    {
+        $this->dateModif = $dateModif;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModif
+     *
+     * @return \DateTime
+     */
+    public function getDateModif()
+    {
+        return $this->dateModif;
+    }
 }

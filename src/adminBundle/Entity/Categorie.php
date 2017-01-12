@@ -17,6 +17,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Categorie
 {
     /**
+     * @ORM\ManyToMany(targetEntity="Product")
+     * @ORM\JoinColumn(name="id_product", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $product;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -194,5 +200,46 @@ class Categorie
     public function getActive()
     {
         return $this->active;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add product
+     *
+     * @param \adminBundle\Entity\Product $product
+     *
+     * @return Categorie
+     */
+    public function addProduct(\adminBundle\Entity\Product $product)
+    {
+        $this->product[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \adminBundle\Entity\Product $product
+     */
+    public function removeProduct(\adminBundle\Entity\Product $product)
+    {
+        $this->product->removeElement($product);
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
