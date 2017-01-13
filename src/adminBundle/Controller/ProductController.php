@@ -114,6 +114,7 @@ class ProductController extends Controller
         $product = $em->getRepository('adminBundle:Product')
             ->find($id);
 
+
         if  (!$product){
             throw $this->createNotFoundException("Le produit n'existe pas");
         }
@@ -124,6 +125,7 @@ class ProductController extends Controller
         $formProduct->handleRequest($request);
 
         if ($formProduct->isSubmitted() && $formProduct->isValid()) {
+
 
             //pour sauvegarde dans la base de donnée
             $em->persist($product);

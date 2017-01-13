@@ -21,7 +21,7 @@
     {% endfor %}
 
 
-    {{ form_start(formProduct) }}
+    {{ form_start(formProduct, {'attr':{ 'novalidate' : 'novalidate' }}) }}
     <div>
 
         {{ form_label(formProduct.title, "Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
@@ -74,11 +74,16 @@
 
         {{ form_label(formProduct.image, "Image", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
 
+
+        <img src="{{ asset('img/'~formProduct.vars.value.image) }}" alt="pas d'image" style="width:100px">
+
         {{ form_errors(formProduct.image) }}
 
         {{ form_widget(formProduct.image) }}
 
     </div><br>
+    
+    
 
 
 
