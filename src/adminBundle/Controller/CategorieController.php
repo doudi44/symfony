@@ -159,7 +159,7 @@ class CategorieController extends Controller
     public function renderCategorieAction() {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository('adminBundle:Categorie')->findAll();
-        //die(dump($categories));
+        //die(dump($this->render('Categories/renderCategories.html.twig', ['categories' => $categories])));
 
         return $this->render('Categories/renderCategories.html.twig', ['categories' => $categories]);
     }

@@ -1,0 +1,27 @@
+
+<table class="table">
+    {% set nbreProduit = 1 %}
+
+    {% for prod in produits %}
+
+        {% if  nbreProduit == 1 %}
+            <tr>
+        {% endif %}
+
+
+                <td style="width:100px;">
+                    <img style="width:100px;" src="{{ asset('img/'~prod.image) }}" alt="vide">
+                    <p >{{ prod.title }}</p>
+                </td>
+
+        {% if  nbreProduit == 5 %}
+            <tr>
+            {% set nbreProduit = 1 %}
+
+        {% else %}
+            {% set nbreProduit = nbreProduit + 1 %}
+        {% endif %}
+
+
+        {% endfor %}
+</table>

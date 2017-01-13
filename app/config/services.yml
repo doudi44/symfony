@@ -7,14 +7,30 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    admin.twig.extension:
+        class: adminBundle\Twig\AppExtension
+        arguments: [ '@doctrine' , '@twig' ]
+        tags:
+            - { name: twig.extension }
+
+    app.twig.extension:
+        class: AppBundle\Twig\AppExtension
+        arguments: [ '@doctrine' , '@twig' ]
+        tags:
+            - { name: twig.extension }
+
     admin.service.string:
         class: adminBundle\Service\StringService
+
     admin.service.upload:
         class: adminBundle\Service\UploadService
         arguments: ["@admin.service.string","%dossier_img%"]
+
     admin.service.delete:
         class: adminBundle\Service\DeleteService
         arguments: ["%dossier_img%"]
+
     admin.listener.product:
         class: adminBundle\Listener\ProductListener
         arguments: ["@admin.service.upload","@admin.service.delete","%dossier_img%"]

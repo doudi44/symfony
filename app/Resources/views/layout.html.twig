@@ -2,6 +2,7 @@
 
 {% block body %}
 
+
   <div class="wrapper">
 
     <header class="main-header">
@@ -332,7 +333,7 @@
             <ul class="treeview-menu">
               <li ><a href="{{ path('admin_categories') }}"><i class="fa fa-circle-o"></i> Tableau Catégories</a></li>
 
-              {{ render(controller("adminBundle:Categorie:renderCategorie")) }}
+              {{ liens_categories()|raw) }}
 
             </ul>
           </li>

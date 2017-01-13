@@ -1,4 +1,5 @@
 {% for cat in categories %}
-    <li></li>
+
     <li ><a href="{{ path('editCategorie',{id:cat.id }) }}"><i class="fa fa-circle-o"></i>{{ cat.title }}</a></li>
+
 {% endfor %}

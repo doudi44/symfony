@@ -103,7 +103,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/produit/edit/{id}",name="editProduit"), requirements={"id" = "\d+"}
+     * @Route("/produit/edit/{id}",name="editProduit", requirements={"id" = "\d+"})
      */
     // pour filtrer les chiffres
 
