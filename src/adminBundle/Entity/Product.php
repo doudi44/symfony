@@ -21,8 +21,9 @@ class Product
      * @ORM\JoinColumn(name="id_marque", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $marque;
+
     /**
-     * @ORM\ManyToMany(targetEntity="Categorie")
+     * @ORM\ManyToMany(targetEntity="Categorie", inversedBy="product")
      * @ORM\JoinColumn(name="id_categorie", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $categorie;
@@ -245,47 +246,6 @@ class Product
     {
         return $this->marque;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->categorie = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add categorie
-     *
-     * @param \adminBundle\Entity\Categorie $categorie
-     *
-     * @return Product
-     */
-    public function addCategorie(\adminBundle\Entity\Categorie $categorie)
-    {
-        $this->categorie[] = $categorie;
-
-        return $this;
-    }
-
-    /**
-     * Remove categorie
-     *
-     * @param \adminBundle\Entity\Categorie $categorie
-     */
-    public function removeCategorie(\adminBundle\Entity\Categorie $categorie)
-    {
-        $this->categorie->removeElement($categorie);
-    }
-
-    /**
-     * Get categorie
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
-    }
 
     /**
      * Set dateCreation
@@ -357,5 +317,46 @@ class Product
     public function getImage()
     {
         return $this->image;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categorie = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add categorie
+     *
+     * @param \adminBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function addCategorie(\adminBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie[] = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Remove categorie
+     *
+     * @param \adminBundle\Entity\Categorie $categorie
+     */
+    public function removeCategorie(\adminBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie->removeElement($categorie);
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
     }
 }

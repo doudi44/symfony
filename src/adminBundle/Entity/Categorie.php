@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Categorie
 {
     /**
-     * @ORM\ManyToMany(targetEntity="Product")
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="categorie")
      * @ORM\JoinColumn(name="id_product", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $product;
@@ -201,6 +201,7 @@ class Categorie
     {
         return $this->active;
     }
+
     /**
      * Constructor
      */

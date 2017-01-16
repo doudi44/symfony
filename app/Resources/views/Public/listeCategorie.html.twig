@@ -1,0 +1,5 @@
+{% for cat in categories %}
+
+    <a href="{{ path('PublicCategorieShow',{'id':cat.id}) }}" class="list-group-item">{{ cat.title }}</a>
+
+{% endfor %}

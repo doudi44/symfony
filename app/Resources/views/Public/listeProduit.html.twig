@@ -4,24 +4,36 @@
 
     {% for prod in produits %}
 
-        {% if  nbreProduit == 1 %}
-            <tr>
-        {% endif %}
 
 
-                <td style="width:100px;">
-                    <img style="width:100px;" src="{{ asset('img/'~prod.image) }}" alt="vide">
-                    <p >{{ prod.title }}</p>
-                </td>
+                <div class="col-sm-4 col-lg-4 col-md-4">
+                    <a href="{{ path('PublicProduitShow',{'id':prod.id}) }}">
 
-        {% if  nbreProduit == 5 %}
-            <tr>
-            {% set nbreProduit = 1 %}
+                        <div class="thumbnail">
 
-        {% else %}
-            {% set nbreProduit = nbreProduit + 1 %}
-        {% endif %}
+                            <img src="{{ asset('img/'~prod.image) }}" alt="">
+                            <div class="caption">
+                                <h4 class="pull-right">{{ prod.price }}€</h4>
+                                <h4><a href="#">{{ prod.title }}</a>
+                                </h4>
+                                <p>{{ prod.description }}</p>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">Quantité : {{ prod.quantity }}</p>
+{#
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </p>
+#}
+                            </div>
+                        </div>
 
+                    </a>
+                </div>
 
         {% endfor %}
 </table>

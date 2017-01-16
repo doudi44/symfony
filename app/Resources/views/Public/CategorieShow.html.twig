@@ -1,0 +1,113 @@
+{% extends 'layoutPublic.html.twig' %}
+
+{% block stylesheets %}
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('public/categories/css/heroic-features.css') }}" rel="stylesheet">
+
+
+{% endblock %}
+
+
+
+
+{% block body %}
+
+<div class="col-md-9">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron hero-spacer">
+        <h1>Catégorie : {{ categorie.title }}</h1>
+        <p>{{ categorie.description }}</p>
+        </p>
+    </header>
+
+    <hr>
+
+    <!-- Title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Les produits associés</h3>
+            <a href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':pageActive,'tri':'ASC'}) }}" class="btn btn-info">
+                Prix croissant
+            </a>
+            <a href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':pageActive,'tri':'DESC'}) }}" class="btn btn-info">
+                Prix décroissant
+            </a>
+
+        </div>
+    </div>
+
+    <!-- /.row -->
+
+    <nav aria-label="..." class="col-md-12 row">
+        <ul class="pagination " >
+
+{#
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+#}
+
+            {% for page in 1..pages %}
+
+            <li class="page-item {% if page == pageActive %}active{% endif %}">
+                <a class="page-link" href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':page}) }}">{{ page }}
+
+
+                    {% if page == pageActive %}
+                        <span class="sr-only">(current)</span>
+                    {% endif %}
+
+
+
+                </a></li>
+
+
+            {% endfor %}
+
+
+{#
+            <li class="page-item">
+                <a class="page-link" href="#"  >Next</a>
+            </li>
+#}
+        </ul>
+    </nav>
+
+
+    <!-- Page Features -->
+    <div class="row text-center">
+
+
+
+
+        {% for prod in products %}
+
+
+        <div class="col-md-3 col-sm-6 hero-feature">
+            <div class="thumbnail">
+                <img src="{{ asset('img/'~prod.image) }}" alt="" style="height:100px">
+                <div class="caption">
+                    <h3>{{ prod.title }}</h3>
+                    <p>{{ prod.description }}</p>
+                    <p>
+{#
+                        <a href="#" class="btn btn-primary">Buy Now!</a>
+#}
+                        <a href="#" class="btn btn-default">More Info</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+
+    <!-- /.row -->
+</div>
+
+
+{% endblock %}

@@ -25,17 +25,41 @@ class AppExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('liste_produits',[$this, 'listeProduits'])
+            new \Twig_SimpleFunction('liste_produits',[$this, 'listeProduits']),
+            new \Twig_SimpleFunction('liens_categories_public',[$this, 'liensCategoriesPublic']),
+            new \Twig_SimpleFunction('images_caroussel',[$this, 'imagesCaroussel']),
+            new \Twig_SimpleFunction('liste_produits_par_categorie',[$this, 'listeProduitsParCategorie']),
+
         ];
     }
 
     public function listeProduits(){
 
-        $result = $this->doctrine->getRepository('adminBundle:Product')->findAll();
+        $result = $this->doctrine->getRepository('adminBundle:Product')->findBy([],['price'=>"DESC"],6,0);
 
         //die(dump($result));
 
         return $this->twig->render('Public/listeProduit.html.twig', ['produits' => $result]);
     }
+
+    public function liensCategoriesPublic(){
+
+        $result = $this->doctrine->getRepository('adminBundle:Categorie')->findBy([],['title'=>"ASC"]);
+
+        //die(dump($result));
+
+        return $this->twig->render('Public/listeCategorie.html.twig', ['categories' => $result]);
+    }
+
+    public function imagesCaroussel(){
+
+        $result = $this->doctrine->getRepository('adminBundle:Product')->findBy([],['quantity'=>"DESC"],3,0);
+
+        //die(dump($result));
+
+        return $this->twig->render('Public/listeImgCaroussel.html.twig', ['products' => $result]);
+    }
+
+
 
 }

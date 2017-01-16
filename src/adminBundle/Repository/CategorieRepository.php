@@ -47,4 +47,35 @@ class CategorieRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+    public function paginationProducts($id,$offset,$tri)
+    {
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('prod')
+            ->from("adminBundle:Product","prod")
+            ->join('prod.categorie','cate')
+            ->where('cate='.$id)
+            ->setFirstResult($offset)
+            ->setMaxResults(4)
+            ->orderBy("prod.price" , $tri)
+            ->getQuery();
+
+        //die(dump($query));
+
+        return $query->getResult();
+    }
+
+    public function nbreProducts($id)
+    {
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('prod')
+            ->from("adminBundle:Product","prod")
+            ->join('prod.categorie','cate')
+            ->where('cate = '.$id)
+            ->getQuery();
+
+        return count($query->getResult());
+    }
+
 }
