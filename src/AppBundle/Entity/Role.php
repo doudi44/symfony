@@ -1,16 +1,16 @@
 <?php
 
-namespace adminBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Marque
+ * Role
  *
- * @ORM\Table(name="marque")
- * @ORM\Entity(repositoryClass="adminBundle\Repository\MarqueRepository")
+ * @ORM\Table(name="role")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
  */
-class Marque
+class Role
 {
     /**
      * @var int
@@ -24,10 +24,9 @@ class Marque
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=120, unique=true)
      */
-    private $title;
-
+    private $name;
 
     /**
      * Get id
@@ -40,26 +39,26 @@ class Marque
     }
 
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      *
-     * @return Marque
+     * @return Role
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 }

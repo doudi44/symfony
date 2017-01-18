@@ -65,6 +65,21 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    public function getComments($id)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('c')
+            ->from("adminBundle:Comment","c")
+            ->join('c.product','p')
+            ->where('p = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+
+        //die(dump($query->getResult()));
+
+        return $query->getResult();
+    }
+
 
 
 

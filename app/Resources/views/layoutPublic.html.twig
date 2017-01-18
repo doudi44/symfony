@@ -12,7 +12,12 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('public/shop/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+
+        <!-- Custom CSS -->
+        <link href="{{ asset('public/shop/css/shop-homepage.css') }}" rel="stylesheet">
+
+    {% endblock %}
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -53,10 +58,45 @@
                     <li>
                         <a href="{{ path('admin') }}">Admin</a>
                     </li>
+
                     <li>
                         <a href="{{ path('contact') }}">Contact</a>
                     </li>
+
                 </ul>
+
+
+
+
+
+
+                <ul class="pull-right nav navbar-nav">
+
+
+                        {% if is_granted("ROLE_USER") %}
+
+                            <li>
+                                <a href="{{ path('security.logout') }}" >Déonnexion</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('profil',{id:app.user.id}) }}" >Profil</a>
+                            </li>
+
+
+                        {% else %}
+
+                            <li>
+                                <a href="{{ path('security.login') }}" >Connexion</a>
+                            </li>
+
+                        {% endif %}
+
+
+
+                </ul>
+
+
+
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -80,7 +120,11 @@
             </div>
         </div>
 
-        {% block body %}{% endblock %}
+        <div class="col-md-9">
+
+            {% block body %}{% endblock %}
+
+        </div>
 
     </div>
 

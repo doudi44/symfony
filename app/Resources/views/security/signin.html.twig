@@ -1,0 +1,43 @@
+{% extends 'layoutPublic.html.twig' %}
+
+
+{%  block body %}
+
+    <h1>Ajouter un compte</h1>
+
+
+        {{ form_start(form, { 'attr' : { 'novalidate' : 'novalidate' } }) }}
+
+
+        <div>
+
+            {{ form_label(form.username, "Nom", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+            {{ form_errors(form.username) }}
+            {{ form_widget(form.username, {attr: {placeholder: "username"}}) }}
+
+        </div><br>
+
+
+        <div>
+
+            {{ form_label(form.email, "Email", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+            {{ form_errors(form.email) }}
+            {{ form_widget(form.email, {attr: {placeholder: "email"}}) }}
+
+        </div><br>
+
+        <div>
+
+            {{ form_label(form.password, "Pass", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+            {{ form_errors(form.password) }}
+            {{ form_widget(form.password, {attr: {placeholder: "password"}}) }}
+
+        </div><br>
+
+
+        <button>Ajouter</button>
+
+        {{ form_end(form) }}
+
+
+{%  endblock %}

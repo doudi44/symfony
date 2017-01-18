@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use adminBundle\Entity\Comment;
+use adminBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +31,15 @@ class DefaultController extends Controller
         $product = $em->getRepository('adminBundle:Product')
             ->find($id);
 
+        //die(dump());
+
+        $comments = $em->getRepository('adminBundle:Product')->getComments($id);
+
 
         return $this->render('Public/ProduitShow.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            "product" => $product
+            "product" => $product,
+            "comments" => $comments
         ]);
     }
 
@@ -114,6 +121,94 @@ class DefaultController extends Controller
             'age' => $age
         ]);
     }
+
+    /**
+     * @Route("/commentaire/creer{id}", name="creerCommentaire", requirements={"id" = "\d+"})
+     */
+
+
+    public function createCommentAction(Request $request, $id)
+    {
+        $comment = new Comment();
+
+        $formComment = $this->createForm(CommentType::class, $comment);
+
+        $formComment->handleRequest($request);
+
+        if ($formComment->isSubmitted() && $formComment->isValid()) {
+
+            //pour sauvegarde dans la base de donnée
+            $em = $this->getDoctrine()->getManager();
+
+            $prod = $em->getRepository('adminBundle:Product')
+                ->find($id);
+
+            $comment->setProduct($prod)
+                    ->setCreateAt(new \DateTime());
+
+            //die(dump($formComment));
+
+
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre commentaire a bien été sauvegardé');
+
+            return $this->redirectToRoute('PublicProduitShow',['id'=>$id]);
+        }
+
+        return $this->render('Public/createComment.html.twig',[
+            'formComment' => $formComment->createView(),
+            'productId' => $id
+        ]);
+
+    }
+
+    /**
+     * @Route("/security", name="securityConfirm")
+     */
+    public function securityConfirmAction(Request $request)
+    {
+
+        $id = $request->query->get('id');
+        $token = $request->query->get('token');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('AppBundle:User')
+            ->find($id);
+
+        if ($user->getToken() == $token && $user->getIsActive() == false){
+
+            //die(dump('cool'));
+
+            $user->setIsActive(true);
+
+            $em->persist($user);
+            $em->flush();
+
+
+
+
+            $this->addFlash('success', 'Votre compte a bien été confirmer');
+
+
+            return $this->render('Public/confirmationCompte.html.twig',[
+                'login' => $id
+            ]);
+
+        }
+
+        //die(dump('pas cool'));
+
+
+        $this->addFlash('danger', 'Votre compte a déjà été validé.');
+
+        return $this->render('Public/confirmationCompte.html.twig');
+
+
+    }
+
 
 
 

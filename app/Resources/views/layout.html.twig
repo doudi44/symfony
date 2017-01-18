@@ -307,6 +307,8 @@
             <ul class="treeview-menu">
               <li class="{% if app.request.get("_route") == "admin" %}active{% endif %}"><a href="{{ path('admin') }}"><i class="fa fa-circle-o"></i> Admin</a></li>
               <li ><a href="{{ path('homepage') }}"><i class="fa fa-circle-o"></i> Site</a></li>
+              <li ><a href="{{ path('security.logout') }}"><i class="fa fa-circle-o"></i> Déconnexion</a></li>
+
             </ul>
           </li>
           <li class="treeview">

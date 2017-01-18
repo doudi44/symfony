@@ -1,0 +1,32 @@
+{% extends 'layoutPublic.html.twig' %}
+
+{% block stylesheets %}
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('public/shop/css/shop-homepage.css') }}" rel="stylesheet">
+
+
+{% endblock %}
+
+
+
+
+{% block body %}
+
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+
+    <h1>Bienvenue !</h1>
+
+    <h3>Merci de nous faire confiance...</h3>
+
+    <a href="{{ path('security.login') }}" class="btn btn-primary">Suivant</a>
+
+
+
+{% endblock %}
+

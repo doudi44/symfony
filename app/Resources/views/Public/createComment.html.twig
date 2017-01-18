@@ -1,0 +1,79 @@
+{% extends 'layoutPublic.html.twig' %}
+
+{% block stylesheets %}
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('public/item/css/shop-item.css') }}" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block titleContent %}
+    Création de commentaire
+{% endblock %}
+
+
+
+{% block body %}
+
+    <div class="col-md-9">
+
+        <h1>Ajouter un commentaire</h1>
+
+        {% for flash_message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+
+
+
+
+        {{ form_start(formComment, { 'attr' : { 'novalidate' : 'novalidate' } }) }}
+
+
+        <div>
+
+{#
+            {{ form_label(formComment.author, "Auteur", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+#}
+            {{ form_errors(formComment.author) }}
+            {{ form_widget(formComment.author, {attr: {placeholder: "Auteur"}}) }}
+
+        </div><br>
+
+        <div>
+
+{#
+            {{ form_label(formComment.content, "Commentaire", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+#}
+            {{ form_errors(formComment.content) }}
+            {{ form_widget(formComment.content, {attr: {placeholder: "Commentaire",style:'width:100%;min-height:300px'}}) }}
+
+        </div><br>
+
+
+        <div>
+            {{ form_label(formComment.score, "Score", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+            {{ form_errors(formComment.score) }}
+
+            {{ form_widget(formComment.score) }}
+
+        </div><br>
+
+
+
+
+        <button>Ajouter</button>
+
+        {{ form_end(formComment) }}
+
+        <br><br>
+
+
+        <a href="{{ path('PublicProduitShow',{id:productId}) }}"><button class="btn btn-primary">Retour</button></a>
+
+    </div>
+
+
+{% endblock %}

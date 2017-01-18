@@ -32,6 +32,7 @@ class Comment
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="author", type="string", length=100)
      */
@@ -39,6 +40,7 @@ class Comment
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="content", type="text")
      */
@@ -53,6 +55,14 @@ class Comment
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *     min=0,
+     *     max=5,
+     *     minMessage = "Le score doit être de {{ limit }} minimum",
+     *     maxMessage = "Le score est {{ limit }} au maximum."
+     * )
+     *
      *
      * @ORM\Column(name="score", type="integer")
      */
@@ -164,5 +174,28 @@ class Comment
     {
         return $this->score;
     }
-}
 
+    /**
+     * Set product
+     *
+     * @param \adminBundle\Entity\Product $product
+     *
+     * @return Comment
+     */
+    public function setProduct(\adminBundle\Entity\Product $product)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \adminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+}
