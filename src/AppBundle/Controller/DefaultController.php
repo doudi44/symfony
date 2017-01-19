@@ -26,12 +26,12 @@ class DefaultController extends Controller
      */
     public function publicProduitShowAction(Request $request,$id)
     {
-
+        $locale = $request->getLocale();
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository('adminBundle:Product')
-            ->find($id);
+            ->findProductByLocale($id,$locale);
 
-        //die(dump());
+        //die(dump($product));
 
         $comments = $em->getRepository('adminBundle:Product')->getComments($id);
 

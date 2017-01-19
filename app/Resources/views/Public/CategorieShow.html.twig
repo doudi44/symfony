@@ -23,56 +23,56 @@
 
     <hr>
 
-    <!-- Title -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>Les produits associés</h3>
-            <a href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':pageActive,'tri':'ASC'}) }}" class="btn btn-info">
-                Prix croissant
-            </a>
-            <a href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':pageActive,'tri':'DESC'}) }}" class="btn btn-info">
-                Prix décroissant
-            </a>
 
+{% if pages > 0 %}
+
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Les produits associés</h3>
+                <a href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':pageActive,'tri':'ASC'}) }}" class="btn btn-info">
+                    Prix croissant
+                </a>
+                <a href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':pageActive,'tri':'DESC'}) }}" class="btn btn-info">
+                    Prix décroissant
+                </a>
+
+            </div>
         </div>
-    </div>
-
-    <!-- /.row -->
 
     <nav aria-label="..." class="col-md-12 row">
-        <ul class="pagination " >
-
-{#
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
-        </li>
-#}
-
-            {% for page in 1..pages %}
-
-            <li class="page-item {% if page == pageActive %}active{% endif %}">
-                <a class="page-link" href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':page}) }}">{{ page }}
-
-
-                    {% if page == pageActive %}
-                        <span class="sr-only">(current)</span>
-                    {% endif %}
+    <ul class="pagination " >
 
 
 
-                </a></li>
+    {% for page in 1..pages %}
+
+    <li class="page-item {% if page == pageActive %}active{% endif %}">
+        <a class="page-link" href="{{ path('PublicCategorieShow',{'id':categorie.id,'page':page}) }}">{{ page }}
 
 
-            {% endfor %}
+            {% if page == pageActive %}
+                <span class="sr-only">(current)</span>
+            {% endif %}
 
 
-{#
-            <li class="page-item">
-                <a class="page-link" href="#"  >Next</a>
-            </li>
-#}
+
+        </a></li>
+
         </ul>
-    </nav>
+        </nav>
+
+
+
+    {% endfor %}
+
+    {% else %}
+
+    <h2>Pas de produits associés.</h2>
+
+{% endif %}
+
+
 
 
     <!-- Page Features -->
@@ -88,8 +88,8 @@
             <div class="thumbnail">
                 <img src="{{ asset('img/'~prod.image) }}" alt="" style="height:100px">
                 <div class="caption">
-                    <h3>{{ prod.title }}</h3>
-                    <p>{{ prod.description }}</p>
+                    <h3>{{ attribute(prod,'title' ~ app.request.locale  ) }}</h3>
+                    <p>{{ attribute(prod,'description' ~ app.request.locale) }}</p>
                     <p>
 {#
                         <a href="#" class="btn btn-primary">Buy Now!</a>

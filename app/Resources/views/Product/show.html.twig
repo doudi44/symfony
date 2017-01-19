@@ -18,9 +18,9 @@
     {% endfor %}
 
     <div style="text-align:center">
-                <h1 class="bg-navy-active">Titre : {{ product.title }}</h1>
+                <h1 class="bg-navy-active">Titre : {{ product.titleEN }}</h1>
         <img src="{{ asset('img/'~product.image) }}" style="width:100px;text-align:center" alt="Pas d'image">
-                <h2>Description : {{ product.description }}</h2>
+                <h2>Description : {{ product.descriptionEN }}</h2>
                 {# <h2>Date : {{ product.date_created.date|date("d/m/y") }}</h2> #}
                 <h2 class="bg-navy-active">Prix : {{ product.price }}€</h2>
             <h2 class="bg-navy-active">Dépend de la marque : <a href="{{ path('marque_show',{id:product.marque.id}) }}">{{ product.marque.title }}</a></h2>

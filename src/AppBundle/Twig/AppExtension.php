@@ -35,7 +35,8 @@ class AppExtension extends \Twig_Extension
 
     public function listeProduits(){
 
-        $result = $this->doctrine->getRepository('adminBundle:Product')->findBy([],['price'=>"DESC"],6,0);
+        $result = $this->doctrine->getRepository('adminBundle:Product')
+            ->findBy([],['price'=>"DESC"],6,0);
 
         //die(dump($result));
 

@@ -1,0 +1,42 @@
+{% extends 'layoutPublic.html.twig' %}
+
+{% block stylesheets %}
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('public/shop/css/shop-homepage.css') }}" rel="stylesheet">
+
+
+{% endblock %}
+
+
+{% block body %}
+
+    <h1>TRADUCTION</h1>
+
+    <p>{{ 1000 | localizednumber }}</p>
+    <p>{{ '2000-01-01' | localizeddate }}</p>
+    <p>{{ 1000 | localizednumber('percent') }}</p>
+    <p>{{ '2017-01-19' | localizeddate('medium' , 'none') }}</p>
+
+    <p>{{ "text.content"|trans }}</p>
+
+
+    <hr>
+
+    {% set route = app.request.get('_route') %}
+    {% set route_params = app.request.get('_route_params') %}
+
+    {{ dump(route, route_params,locales) }}
+
+
+    <ul>
+        {% for locale in locales %}
+
+            {% set route_merge = route_params | merge( { '_locale' : locale } ) %}
+
+            <li><a href="{{ url(route, route_merge) }}">{{ locale }}</a></li>
+
+        {% endfor %}
+    </ul>
+
+{% endblock %}

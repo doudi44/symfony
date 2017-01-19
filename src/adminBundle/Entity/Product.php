@@ -62,7 +62,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100)
+     * @ORM\Column(name="titleFR", type="string", length=100)
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min=2,
@@ -70,7 +70,21 @@ class Product
      *  )
 
      */
-    private $title;
+    private $titleFR;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titleEN", type="string", length=100)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min=2,
+     *      minMessage="Votre titre doit contenir au moins {{ limit }} caractères"
+     *  )
+
+     */
+    private $titleEN;
+
 
     /**
      * @var string
@@ -84,7 +98,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="descriptionFR", type="text", nullable=true)
      *
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -92,7 +106,21 @@ class Product
      *      maxMessage="Votre descritpion doit contenir au maximum {{ limit }} caractères"
      *  )
      */
-    private $description;
+    private $descriptionFR;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descriptionEN", type="text", nullable=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      max=300,
+     *      maxMessage="Votre descritpion doit contenir au maximum {{ limit }} caractères"
+     *  )
+     */
+    private $descriptionEN;
+
 
     /**
      * @var float
@@ -116,135 +144,46 @@ class Product
 
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categorie = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add categorie
+     *
+     * @param \adminBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function addCategorie(\adminBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie[] = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Remove categorie
+     *
+     * @param \adminBundle\Entity\Categorie $categorie
+     */
+    public function removeCategorie(\adminBundle\Entity\Categorie $categorie)
+    {
+        $this->categorie->removeElement($categorie);
+    }
+
+
+    /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Product
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Product
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set price
-     *
-     * @param float $price
-     *
-     * @return Product
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return float
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set quantity
-     *
-     * @param integer $quantity
-     *
-     * @return Product
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity
-     *
-     * @return int
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-
-
-    /**
-     * Set marque
-     *
-     * @param \adminBundle\Entity\Marque $marque
-     *
-     * @return Product
-     */
-    public function setMarque(\adminBundle\Entity\Marque $marque)
-    {
-        $this->marque = $marque;
-
-        return $this;
-    }
-
-    /**
-     * Get marque
-     *
-     * @return \adminBundle\Entity\Marque
-     */
-    public function getMarque()
-    {
-        return $this->marque;
     }
 
     /**
@@ -296,6 +235,54 @@ class Product
     }
 
     /**
+     * Set titleFR
+     *
+     * @param string $titleFR
+     *
+     * @return Product
+     */
+    public function setTitleFR($titleFR)
+    {
+        $this->titleFR = $titleFR;
+
+        return $this;
+    }
+
+    /**
+     * Get titleFR
+     *
+     * @return string
+     */
+    public function getTitleFR()
+    {
+        return $this->titleFR;
+    }
+
+    /**
+     * Set titleEN
+     *
+     * @param string $titleEN
+     *
+     * @return Product
+     */
+    public function setTitleEN($titleEN)
+    {
+        $this->titleEN = $titleEN;
+
+        return $this;
+    }
+
+    /**
+     * Get titleEN
+     *
+     * @return string
+     */
+    public function getTitleEN()
+    {
+        return $this->titleEN;
+    }
+
+    /**
      * Set image
      *
      * @param string $image
@@ -318,36 +305,125 @@ class Product
     {
         return $this->image;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->categorie = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add categorie
+     * Set descriptionFR
      *
-     * @param \adminBundle\Entity\Categorie $categorie
+     * @param string $descriptionFR
      *
      * @return Product
      */
-    public function addCategorie(\adminBundle\Entity\Categorie $categorie)
+    public function setDescriptionFR($descriptionFR)
     {
-        $this->categorie[] = $categorie;
+        $this->descriptionFR = $descriptionFR;
 
         return $this;
     }
 
     /**
-     * Remove categorie
+     * Get descriptionFR
      *
-     * @param \adminBundle\Entity\Categorie $categorie
+     * @return string
      */
-    public function removeCategorie(\adminBundle\Entity\Categorie $categorie)
+    public function getDescriptionFR()
     {
-        $this->categorie->removeElement($categorie);
+        return $this->descriptionFR;
+    }
+
+    /**
+     * Set descriptionEN
+     *
+     * @param string $descriptionEN
+     *
+     * @return Product
+     */
+    public function setDescriptionEN($descriptionEN)
+    {
+        $this->descriptionEN = $descriptionEN;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionEN
+     *
+     * @return string
+     */
+    public function getDescriptionEN()
+    {
+        return $this->descriptionEN;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     *
+     * @return Product
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return Product
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set marque
+     *
+     * @param \adminBundle\Entity\Marque $marque
+     *
+     * @return Product
+     */
+    public function setMarque(\adminBundle\Entity\Marque $marque)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Get marque
+     *
+     * @return \adminBundle\Entity\Marque
+     */
+    public function getMarque()
+    {
+        return $this->marque;
     }
 
     /**

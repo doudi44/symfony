@@ -24,17 +24,21 @@
     {{ form_start(formProduct, {'attr':{ 'novalidate' : 'novalidate' }}) }}
     <div>
 
-        {{ form_label(formProduct.title, "Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
-        {{ form_errors(formProduct.title) }}
-        {{ form_widget(formProduct.title, {attr: {placeholder: "Titre"}}) }}
+        {{ form_label(formProduct.titleFR, "Titre", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.titleFR) }}
+        {{ form_errors(formProduct.titleEN) }}
+        {{ form_widget(formProduct.titleFR, {attr: {placeholder: "Titre FR"}}) }}
+        {{ form_widget(formProduct.titleEN, {attr: {placeholder: "Titre EN"}}) }}
 
     </div><br>
 
     <div>
 
-        {{ form_label(formProduct.description, "Description", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
-        {{ form_errors(formProduct.description) }}
-        {{ form_widget(formProduct.description, {attr: {placeholder: "Description"}}) }}
+        {{ form_label(formProduct.descriptionFR, "Description", {label_attr: {class: 'form-control  bg-navy-active'}}) }}
+        {{ form_errors(formProduct.descriptionFR) }}
+        {{ form_errors(formProduct.descriptionEN) }}
+        {{ form_widget(formProduct.descriptionFR, {attr: {placeholder: "Description FR"}}) }}
+        {{ form_widget(formProduct.descriptionEN, {attr: {placeholder: "Description EN"}}) }}
 
     </div><br>
 

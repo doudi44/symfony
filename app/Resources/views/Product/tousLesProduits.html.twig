@@ -64,8 +64,8 @@
 		                <tr {% if product.price ==  min(tabPrix)%}style="background-color:lightgrey"{% endif %}>
 		                  <td>{{ product.id }}</td>
                             <td><img src="{{ asset('img/'~product.image) }}" style="width:100px" alt="vide"></td>
-		                  <td>{{ product.title }}</td>
-		                  <td>{{ product.description }}</td>
+		                  <td>{{ product.titleEN }}</td>
+		                  <td>{{ product.descriptionEN }}</td>
 		                  {# <td>{{products.0.date_created.date|date("d/m/y")}}</td> #}
 		                  <td><a href="{{ path('showProduit',{id:product.id}) }}" class="btn btn-block btn-primary">Voir</a></td>
 		                  <td><a href="{{ path('editProduit',{id:product.id}) }}" class="btn btn-block btn-success">Editer</a></td>
